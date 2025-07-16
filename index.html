@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>O que esse animal está pensando?</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background-color: #808080;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        img {
+            max-width: 400px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .thought {
+            font-size: 1.5rem;
+            margin: 1rem auto;
+            background: #fff8dc;
+            padding: 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            max-width: 500px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            margin: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
+            background-color: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #ff1493;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🐶 O que esse animal está pensando?</h1>
+    <img id="animalImage" src="https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg" alt="Animal fofo" />
+    <div class="thought" id="thoughtText">"Hmm... Será que hoje tem biscoito?"</div>
+    <br />
+    <button onclick="trocarAnimal()">Novo animal e frase</button>
+    <button onclick="novaFrase()">Nova frase</button>
+    <button onclick="trocarSoAnimal()">Novo animal</button>
+    <button onclick="adicionarFrase()">Adicionar nova frase</button>
+
+    <script>
+        const imagens = [
+            "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg", // gato
+            "https://images.pexels.com/photos/1108099/pexels-photo-1108099.jpeg", // cachorro
+            "https://images.pexels.com/photos/128756/pexels-photo-128756.jpeg", // peixe
+            "https://images.pexels.com/photos/3652958/pexels-photo-3652958.jpeg", // tartaruga
+            "https://images.pexels.com/photos/1661179/pexels-photo-1661179.jpeg", // pássaro
+            "https://images.pexels.com/photos/27742215/pexels-photo-27742215.jpeg", // porquinho-da-índia
+            "https://images.pexels.com/photos/133394/pexels-photo-133394.jpeg", // elefante
+            "https://images.pexels.com/photos/802112/pexels-photo-802112.jpeg"  // girafa
+        ];
+
+        // Pré-carregar imagens
+        imagens.forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        const frases = [
+            "Será que hoje tem ração com gosto de frango?",
+            "Não vi, não sei, não fui eu!",
+            "Estou muito chique hoje!",
+            "Alguém viu minha bolinha?",
+            "Que dia lindo para uma soneca de 8 horas!",
+            "Cadê meu snack de cenoura?",
+            "Quem acorda feliz às 7h da manhã? Não eu.",
+            "Quero correr e brincar!",
+            "Hoje vou ser muito curioso!",
+            "Acho que ouvi um barulho estranho...",
+            "Gosto de observar tudo ao redor."
+        ];
+
+        //Permite que não repita o mesmo animal ou frase 2 vezes consecutivas
+        let indiceAtual = -1;
+        let indiceFraseAtual = -1;
+
+        function trocarAnimal() {
+            const imgEl = document.getElementById('animalImage');
+            const thoughtEl = document.getElementById('thoughtText');
+
+            let novoIndice;
+            do {
+                novoIndice = Math.floor(Math.random() * imagens.length);
+            } while (novoIndice === indiceAtual);
+
+            indiceAtual = novoIndice;//Atualiza o indice da imagem que vai ser exibida agora
+            imgEl.src = imagens[novoIndice];
+
+            let novoIndiceFrase;
+            do{
+                novoIndiceFrase = Math.floor(Math.random() * frases.length);
+            }while (novoIndiceFrase === indiceFraseAtual);
+
+            indiceFraseAtual = novoIndiceFrase;//Atualiza o indice da frase atual
+
+            const novaFrase = frases[novoIndiceFrase];
+            thoughtEl.textContent = '"' + novaFrase + '"';//Imprime a frase
+        }
+
+        function trocarSoAnimal() {
+            const imgEl = document.getElementById('animalImage');
+            let novoIndice;
+
+            do {
+                novoIndice = Math.floor(Math.random() * imagens.length);
+            } while (novoIndice === indiceAtual);
+
+            indiceAtual = novoIndice;
+            imgEl.src = imagens[novoIndice];
+        }
+
+
+        function novaFrase() {
+            const thoughtEl = document.getElementById('thoughtText');
+
+            let novoIndiceFrase;
+
+            do{
+                novoIndiceFrase = Math.floor(Math.random() * frases.length);
+            }while (novoIndiceFrase === indiceFraseAtual);
+
+            indiceFraseAtual = novoIndiceFrase;
+
+            const novaFrase = frases[novoIndiceFrase];
+            thoughtEl.textContent = '"' + novaFrase + '"';
+        }
+
+        function adicionarFrase() {//Permite adicionar uma nova frase em tempo de execução para que possa ser vista.
+            const thoughtEl = document.getElementById('thoughtText');
+            const nova = prompt("Digite uma nova frase para o animal pensar:");
+            if (nova && nova.trim() !== "") {
+                const fraseFormatada = nova.trim();
+                frases.push(fraseFormatada);
+                thoughtEl.textContent = '"' + fraseFormatada + '"';
+                alert("Frase adicionada e exibida com sucesso!");
+            }
+        }
+    </script>
+</body>
+
+</html>
